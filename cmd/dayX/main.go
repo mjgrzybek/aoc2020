@@ -11,6 +11,7 @@ func main() {
 
 	switch dayNo {
 	case "1":
-		fmt.Println(day1.Solve())
+		fmt.Println(day1.SolvePart1())
+		fmt.Println(day1.SolvePart2())
 	}
 }

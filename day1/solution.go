@@ -8,7 +8,7 @@ import (
 )
 
 // O(nlogn)
-func SolvePart1() int {
+func Solve1() int {
 	nums := loadData()
 
 	// O(n)
@@ -31,7 +31,7 @@ func SolvePart1() int {
 }
 
 // O(n^2 logn)
-func SolvePart2() int {
+func Solve2() int {
 	nums := loadData()
 
 	// O(n^2 logn)

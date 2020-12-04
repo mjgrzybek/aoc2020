@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/mjgrzybek/aoc2020/day1"
+	"github.com/mjgrzybek/aoc2020/day2"
 	"os"
 )
 
@@ -13,5 +14,8 @@ func main() {
 	case "1":
 		fmt.Println(day1.Solve1())
 		fmt.Println(day1.Solve2())
+	case "2":
+		fmt.Println(day2.Solve1())
+		fmt.Println(day2.Solve2())
 	}
 }

@@ -20,5 +20,6 @@ func main() {
 		fmt.Println(day2.Solve2())
 	case "3":
 		fmt.Println(day3.Solve1())
+		fmt.Println(day3.Solve2())
 	}
 }

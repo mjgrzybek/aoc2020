@@ -77,3 +77,27 @@ func Solve1() int {
 
 	return max
 }
+
+func Solve2() int {
+	f, _ := os.Open("day5/input")
+	coords := loadData(f)
+
+	seats := [128][8]bool{}
+
+	for _, coord := range coords {
+		c := BinarySpacePartitioning(coord.Col, 'L', 'R')
+		r := BinarySpacePartitioning(coord.Row, 'F', 'B')
+
+		seats[r][c] = true
+	}
+
+	for r := range seats {
+		for c := range seats[r] {
+			if seats[r][c] == false {
+				fmt.Println(r, c, "...", r*8+c)
+			}
+		}
+	}
+
+	return 0
+}

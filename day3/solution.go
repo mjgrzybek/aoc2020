@@ -34,7 +34,10 @@ func Solve2() uint64 {
 	f, _ := os.Open("day3/input")
 	lines := loadData(bufio.NewReader(f))
 
-	slopes := []struct{x int; y int}{{1,1}, {3,1}, {5,1},{7,1}, {1,2},}
+	slopes := []struct {
+		x int
+		y int
+	}{{1, 1}, {3, 1}, {5, 1}, {7, 1}, {1, 2}}
 
 	var tressMultiplied uint64 = 1
 	for _, xy := range slopes {

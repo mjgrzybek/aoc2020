@@ -5,6 +5,7 @@ import (
 	"github.com/mjgrzybek/aoc2020/day1"
 	"github.com/mjgrzybek/aoc2020/day2"
 	"github.com/mjgrzybek/aoc2020/day3"
+	"github.com/mjgrzybek/aoc2020/day4"
 	"os"
 )
 
@@ -21,5 +22,8 @@ func main() {
 	case "3":
 		fmt.Println(day3.Solve1())
 		fmt.Println(day3.Solve2())
+	case "4":
+		fmt.Println(day4.Solve1())
+		fmt.Println(day4.Solve2())
 	}
 }

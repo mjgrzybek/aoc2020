@@ -54,7 +54,7 @@ func Test_loadRelations(t *testing.T) {
 	tests := []struct {
 		name string
 		args args
-		want Package2ContainersMap
+		want Package2PackagesMap
 	}{
 		{
 			name: "",
@@ -63,8 +63,8 @@ func Test_loadRelations(t *testing.T) {
 drab bronze bags contain 3 vibrant aqua bags, 4 light turquoise bags, 5 light magenta bags, 1 vibrant aqua bag.
 vibrant lavender bags contain 2 dim salmon bags, 5 muted violet bags, 5 light magenta bags, 1 vibrant aqua bag.`),
 			},
-			want: func() Package2ContainersMap {
-				p2c := Package2ContainersMap{}
+			want: func() Package2PackagesMap {
+				p2c := Package2PackagesMap{}
 				fillP2C(p2c, "dim salmon", "vibrant lavender")
 				fillP2C(p2c, "light magenta", "drab bronze", "vibrant lavender")
 				fillP2C(p2c, "light turquoise", "drab bronze")
@@ -81,8 +81,8 @@ vibrant lavender bags contain 2 dim salmon bags, 5 muted violet bags, 5 light ma
 b b bags contain 3 c c bags, 4 d d bags, 1 X X bag.
 e e bags contain 2 f f bags, 5 g g bags, 2 X X bags.`),
 			},
-			want: func() Package2ContainersMap {
-				p2c := Package2ContainersMap{}
+			want: func() Package2PackagesMap {
+				p2c := Package2PackagesMap{}
 				fillP2C(p2c, "b b", "a a")
 				fillP2C(p2c, "c c", "b b")
 				fillP2C(p2c, "d d", "b b")
@@ -95,22 +95,22 @@ e e bags contain 2 f f bags, 5 g g bags, 2 X X bags.`),
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := loadRelations(tt.args.r); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("loadRelations() = %v, want %v", got, tt.want)
+			if got := loadRelations1(tt.args.r); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("loadRelations1() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func fillP2C(p2c Package2ContainersMap, k string, vs ...string) {
+func fillP2C(p2c Package2PackagesMap, k string, vs ...string) {
 	p2c[k] = PackagesSet{}
 	for _, v := range vs {
 		p2c[k][v] = struct{}{}
 	}
 }
 
-var predefinedP2C = func() Package2ContainersMap {
-	p2c := Package2ContainersMap{}
+var predefinedP2C = func() Package2PackagesMap {
+	p2c := Package2PackagesMap{}
 	fillP2C(p2c, "b b", "a a")
 	fillP2C(p2c, "c c", "b b")
 	fillP2C(p2c, "d d", "b b")
@@ -123,7 +123,7 @@ var predefinedP2C = func() Package2ContainersMap {
 func Test_outermost(t *testing.T) {
 	type args struct {
 		root string
-		p2c  Package2ContainersMap
+		p2c  Package2PackagesMap
 	}
 	tests := []struct {
 		name string

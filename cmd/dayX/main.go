@@ -9,11 +9,12 @@ import (
 	"github.com/mjgrzybek/aoc2020/day5"
 	"github.com/mjgrzybek/aoc2020/day6"
 	"github.com/mjgrzybek/aoc2020/day7"
+	"github.com/mjgrzybek/aoc2020/day8"
 	"os"
 )
 
 func main() {
-	dayNo := "7"
+	dayNo := "8"
 	if len(os.Args) == 2 {
 		dayNo = os.Args[1]
 	}
@@ -40,5 +41,8 @@ func main() {
 	case "7":
 		fmt.Println(day7.Solve1())
 		fmt.Println(day7.Solve2())
+	case "8":
+		fmt.Println(day8.Solve1())
+		fmt.Println(day8.Solve2())
 	}
 }

@@ -2,7 +2,7 @@ package day8
 
 import (
 	"bufio"
-	"fmt"
+	"github.com/bradfitz/iter"
 	"io"
 	"os"
 	"strconv"
@@ -23,7 +23,7 @@ type Processor struct {
 }
 
 func (p *Processor) execute(i Instruction) {
-	fmt.Println(i)
+	//fmt.Println(i)
 	instrOffset := 1
 
 	switch i.operation {
@@ -42,7 +42,7 @@ func (p *Processor) execute(i Instruction) {
 }
 
 func loadData(r io.Reader) []Instruction {
-	listing := []Instruction{}
+	var listing []Instruction
 
 	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
@@ -57,28 +57,64 @@ func loadData(r io.Reader) []Instruction {
 	return listing
 }
 
-func Solve1() int {
-	f, _ := os.Open("day8/input.txt")
-	listing := loadData(f)
-
-	processor := Processor{}
-
+func detectCycle(listing []Instruction, processor *Processor) *Instruction {
 	visited := make([]bool, len(listing))
 
 	for processor.Ip < len(listing) {
+		instruction := listing[processor.Ip]
+
 		if visited[processor.Ip] != true {
 			visited[processor.Ip] = true
 		} else {
-			break
+			return &instruction
 		}
 
-		instruction := listing[processor.Ip]
 		processor.execute(instruction)
 	}
 
-	return processor.Acc
+	return nil
+}
+
+func Solve1() int {
+	f, _ := os.Open("day8/input.txt")
+	listing := loadData(f)
+	r, _ := execute(listing)
+	return r
+}
+
+func execute(listing []Instruction) (int, *Instruction) {
+	processor := &Processor{}
+	instr := detectCycle(listing, processor)
+
+	return processor.Acc, instr
+}
+
+func switchNopJmp(op *operation) {
+	//fmt.Println(*op)
+	switch *op {
+	case "nop":
+		*op = "jmp"
+	case "jmp":
+		*op = "nop"
+	}
 }
 
 func Solve2() int {
-	return -1
+	f, _ := os.Open("day8/input.txt")
+	listing := loadData(f)
+
+	for x := range iter.N(len(listing)) {
+		if x>0 {
+			// revert previous change
+			switchNopJmp(&listing[x-1].operation)
+		}
+		switchNopJmp(&listing[x].operation)
+
+		r, instruction := execute(listing)
+		if instruction == nil {
+			return r
+		}
+	}
+
+	panic("no solution found")
 }

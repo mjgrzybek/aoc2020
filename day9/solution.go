@@ -3,7 +3,6 @@ package day9
 import (
 	"bufio"
 	"os"
-	"sort"
 	"strconv"
 )
 
@@ -21,30 +20,25 @@ func Min(x, y int) int {
 	return y
 }
 
-type SortedSlice struct {
-	Array []int
+type Sum2Map struct {
+	Map map[int]int
 }
 
-func NewSortedSlice(array []int) *SortedSlice {
-	return &SortedSlice{Array: array}
+func NewSum2Map() *Sum2Map {
+	m := &Sum2Map{}
+	m.Map = make(map[int]int)
+	return m
 }
 
-func (s *SortedSlice) Update(removed, added int) {
-	// naive impl O(n) because of no generics in go yet..
-	found := -1
-	for i, v := range s.Array {
-		if v == removed {
-			found = i
-			break
-		}
-	}
+func (m *Sum2Map) isValid(num int) bool {
+	// a + b = c
+	// a + b - c = 0
+	
+	return m.Map[]
+}
 
-	if found > -1 {
-		s.Array = append(s.Array[:found], s.Array[found+1:]...)
-	}
+func (s *Sum2Map) Update(removed, added int) {
 
-	s.Array = append(s.Array, added)
-	sort.Ints(s.Array)
 }
 
 type CyclicBuffer struct {
@@ -87,7 +81,7 @@ func Solve1() int {
 func firstInvalidValue(r *bufio.Reader, size int) int {
 	b := NewCyclicBuffer(size)
 
-	// losf preamble
+	// preamble
 	scanner := bufio.NewScanner(r)
 	for i := 0; i<size && scanner.Scan(); i++ {
 		txt := scanner.Text()
@@ -95,24 +89,17 @@ func firstInvalidValue(r *bufio.Reader, size int) int {
 		b.Push(num)
 	}
 
-	sortedView := SortedSlice{append([]int(nil), b.buffer...)}
+	sum2map := NewSum2Map()
 	for scanner.Scan() {
 		txt := scanner.Text()
 		num, _ := strconv.Atoi(txt)
-		if isValid(num, sortedView) == false {
+		if sum2map.isValid(num) == false {
 			return num
 		}
-		sortedView.Update(b.Get(b.Size()-1), num)
+		sum2map.Update(b.Get(b.Size()-1), num)
 		b.Push(num)
 	}
 	return -1
-}
-
-func isValid(num int, b SortedSlice) bool {
-	for i, v := range b.Array {
-		
-	}
-	return true
 }
 
 func Solve2() int {
